@@ -53,7 +53,9 @@ public class updateStationServlet extends HttpServlet {
             // use regular java objects
             if (!StationIO.exist(stationName) ||
             		(StationIO.exist(stationName) & 
-            		originalID==StationIO.getStationIDByName(stationName))){
+            		originalID==StationIO.getStationIDByName(stationName)))
+            
+            {
             	Station station=new Station (stationID, stationName, stationZone, regionCode, distance, isSpecial);
                 
                 StationIO.update(originalID, station);

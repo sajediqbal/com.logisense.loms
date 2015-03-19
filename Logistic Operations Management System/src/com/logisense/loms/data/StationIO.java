@@ -128,6 +128,27 @@ public class StationIO {
         }
         return result;
     }
+    
+    
+    public static boolean exist(int stationID)
+    	    throws NullPointerException, TooManyResultsException{
+    			boolean result=false;
+    	    	DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    			Query query = 
+    	                      new Query("Station");
+    			query.addFilter("stationID", FilterOperator.EQUAL, stationID);
+    			PreparedQuery pq = datastore.prepare(query);
+    	        Entity station = pq.asSingleEntity();
+    	        try{
+    	        		if (station.getProperty("stationID") != null){
+    	        				result = true;
+    	        		}        
+    	        	}
+    	        catch(NullPointerException e){
+    	        	result = false;
+    	        }
+    	        return result;
+    	    }
 
 }
 

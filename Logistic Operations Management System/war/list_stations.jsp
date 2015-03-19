@@ -34,7 +34,7 @@
  
 		%>
 			<tr>
-			  <td><%=e.getKey()%></td>
+			  <td><%=e.getProperty("stationID")%></td>
 			  <td><%=e.getProperty("stationName") %></td>
 			  <td><%=e.getProperty("distance") %></td>
 			  <td><%=e.getProperty("stationZone") %></td>

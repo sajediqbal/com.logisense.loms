@@ -45,12 +45,13 @@ public class addStationServlet extends HttpServlet {
             boolean isSpecial = false;
             String specialCheckbox = request.getParameter("isSpecial");
             String url=null;
+            String message="";
             if (specialCheckbox != null){
                 isSpecial = true;
             }
         
             // use regular java objects
-            if (!StationIO.exist(stationName)){
+            if (!StationIO.exist(stationName) & !StationIO.exist(stationID)){
             	Station station=new Station (stationID, stationName, stationZone, regionCode, distance, isSpecial);
                 
                 StationIO.add(station);
@@ -59,9 +60,17 @@ public class addStationServlet extends HttpServlet {
             url = "/list_stations.jsp";
             }
             else{
-            	request.setAttribute("message", stationName+" Station already exist.");
+            	if(StationIO.exist(stationName)){
+            	message="Station already exist in database. ";	
+            	}
+            	if(StationIO.exist(stationID)){
+            		message=message+"ID already exist in database.";
+            	}
+            	request.setAttribute("message", message);
             	url = "/add_station.jsp";
             }
+            
+           
                         
         RequestDispatcher dispatcher = 
         		getServletContext().getRequestDispatcher(url);
