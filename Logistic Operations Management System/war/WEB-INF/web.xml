@@ -5,6 +5,30 @@ xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
 http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
 	<servlet>
+		<servlet-name>addStation</servlet-name>
+		<servlet-class>com.logisense.loms.controller.addStationServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>addStation</servlet-name>
+		<url-pattern>/addstation</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>updateStation</servlet-name>
+		<servlet-class>com.logisense.loms.controller.updateStationServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>updateStation</servlet-name>
+		<url-pattern>/updatestation</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>deleteStation</servlet-name>
+		<servlet-class>com.logisense.loms.controller.deleteStationServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>deleteStation</servlet-name>
+		<url-pattern>/deletestation</url-pattern>
+	</servlet-mapping>
+	<servlet>
 		<servlet-name>Logistic_Operations_Management_System</servlet-name>
 		<servlet-class>com.logisense.loms.Logistic_Operations_Management_SystemServlet</servlet-class>
 	</servlet>
@@ -13,6 +37,6 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
 		<url-pattern>/logistic_operations_management_system</url-pattern>
 	</servlet-mapping>
 	<welcome-file-list>
-		<welcome-file>index.html</welcome-file>
+		<welcome-file>list_stations.jsp</welcome-file>
 	</welcome-file-list>
 </web-app>
