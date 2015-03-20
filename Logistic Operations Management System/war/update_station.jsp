@@ -30,22 +30,22 @@ message="";
         <form action="updatestation" method="post">
         <input type="hidden" name="originalID" id="originalID" 
 			value="<%=station.getProperty("stationID") %>" /> 
-        <input type="hidden" name="stationID" 
-        	value="<%=station.getProperty("stationID") %>"/><br/>
-            Station Name:<input type="text" name="stationName" value="<%=station.getProperty("stationName") %>"/><br/>
-            Station Distance: <input type="text" name="distance" value="<%=station.getProperty("distance") %>"/><br/>
-            Region Code: <input type="text" name="regionCode" value="<%=station.getProperty("regionCode") %>"/><br/>
+        Station ID:<input type="number" name="stationID" 
+        	value="<%=station.getProperty("stationID") %>" readonly/><br/>
+            Station Name:<input type="text" name="stationName" value="<%=station.getProperty("stationName") %>" required/><br/>
+            Station Distance: <input type="number" name="distance" value="<%=station.getProperty("distance") %>" required/><br/>
+            Region Code: <input type="number" name="regionCode" value="<%=station.getProperty("regionCode") %>" required/><br/>
             Zone: 
             <select name="stationZone">
-                <option value="South" selected>South</option>
-                <option value="Center">Center</option>
-                <option value="North">North</option>
-                <option value="Peshawar">Peshawar</option>
-                <option value="Quetta">Quetta</option>
+                <option value="South" <%=station.getProperty("stationZone").equals("South") ? "selected" : "" %>>South</option>
+                <option value="Center" <%=station.getProperty("stationZone").equals("Center") ? "selected" : "" %>>Center</option>
+                <option value="North" <%=station.getProperty("stationZone").equals("North") ? "selected" : "" %>>North</option>
+                <option value="Peshawar" <%=station.getProperty("stationZone").equals("Peshawar") ? "selected" : "" %>>Peshawar</option>
+                <option value="Quetta" <%=station.getProperty("stationZone").equals("Quetta") ? "selected" : "" %>>Quetta</option>
             </select><br/>
-            Is Special:<input type="checkbox" name="isSpecial" value="On"><br/>
+            Mark as Special:<input type="checkbox" name="isSpecial" <%=station.getProperty("isSpecial").toString().equals("true") ? "checked='checked'" : "" %>><br/>
             
-            <input type="submit" value="Sunmit">
+            <input type="submit" value="Update Station">
             
         </form>
     </body>

@@ -25,10 +25,10 @@ message="";
 %>
 <%= message %>
         <form action="addstation" method="post">
-            Station ID:<input type="text" name="stationID"><br/>
-            Station Name:<input type="text" name="stationName"><br/>
-            Station Distance: <input type="text" name="distance"><br/>
-            Region Code: <input type="text" name="regionCode"><br/>
+            Station ID:<input type="number" name="stationID" required><br/>
+            Station Name:<input type="text" name="stationName" required><br/>
+            Station Distance: <input type="number" name="distance" required><br/>
+            Region Code: <input type="number" name="regionCode" required><br/>
             Zone: 
             <select name="stationZone">
                 <option value="South" selected>South</option>
@@ -37,10 +37,11 @@ message="";
                 <option value="Peshawar">Peshawar</option>
                 <option value="Quetta">Quetta</option>
             </select><br/>
-            Is Special:<input type="checkbox" name="isSpecial" value="On"><br/>
+            Mark as Special:<input type="checkbox" name="isSpecial" value="isSpecial"><br/>
             
-            <input type="submit" value="Sunmit">
+            <input type="submit" value="Add Station">
             
         </form>
+       
     </body>
 </html>
