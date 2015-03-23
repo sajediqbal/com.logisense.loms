@@ -39,7 +39,7 @@ public class updateStationServlet extends HttpServlet {
         // get parameters from the request
     		int originalID= Integer.parseInt(request.getParameter("originalID"));
             int stationID = Integer.parseInt(request.getParameter("stationID"));
-            String stationName = request.getParameter("stationName");
+            String stationName = request.getParameter("stationName").toUpperCase();
             int distance = Integer.parseInt(request.getParameter("distance"));
             int regionCode = Integer.parseInt(request.getParameter("regionCode"));
             String stationZone = request.getParameter("stationZone");

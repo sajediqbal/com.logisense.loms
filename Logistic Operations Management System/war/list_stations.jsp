@@ -23,13 +23,13 @@
 				<td>Distance</td>
 				<td>Zone</td>
 				<td>Region Code</td>
-				<td>Is Special?</td>
+				<td>Type</td>
 				<td>Action</td>
 			</tr>
 		</thead>
 		<%
- 
-		    List<Entity> stations = StationIO.listStation();
+		
+ 		    List<Entity> stations = StationIO.listStation();
 		    for(Entity e : stations){
  
 		%>
@@ -39,9 +39,10 @@
 			  <td><%=e.getProperty("distance") %></td>
 			  <td><%=e.getProperty("stationZone") %></td>
 			  <td><%=e.getProperty("regionCode") %></td>			  
-			  <td><%=e.getProperty("isSpecial") %></td>
+			  <td><%=e.getProperty("isSpecial").toString().equals("true") ? "Special" : "-" %></td>
 			  <td><a href="updatestation?stationID=<%=e.getProperty("stationID")%>">Update</a> 
-                             | <a href="deletestation?stationID=<%=e.getProperty("stationID")%>">Delete</a></td>
+                             | <a href="deletestation?stationID=<%=e.getProperty("stationID")%>" onClick="return confirm(
+  'Are you sure you want to delete this Station?');">Delete</a></td>
 			</tr>
 		<%
 			}

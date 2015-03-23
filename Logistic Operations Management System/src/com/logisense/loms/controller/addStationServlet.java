@@ -5,6 +5,7 @@ import java.io.*;
 import javax.servlet.*;
 import javax.servlet.http.*;
 
+import com.google.appengine.api.datastore.Entity;
 import com.logisense.loms.business.*;
 import com.logisense.loms.data.*;
 import com.sun.xml.internal.bind.v2.schemagen.xmlschema.List;
@@ -38,7 +39,7 @@ public class addStationServlet extends HttpServlet {
         
         // get parameters from the request
             int stationID = Integer.parseInt(request.getParameter("stationID"));
-            String stationName = request.getParameter("stationName");
+            String stationName = request.getParameter("stationName").toUpperCase();
             int distance = Integer.parseInt(request.getParameter("distance"));
             int regionCode = Integer.parseInt(request.getParameter("regionCode"));
             String stationZone = request.getParameter("stationZone");
@@ -46,6 +47,7 @@ public class addStationServlet extends HttpServlet {
             String specialCheckbox = request.getParameter("isSpecial");
             String url=null;
             String message="";
+            Entity stationEntity =null;
             if (specialCheckbox != null){
                 isSpecial = true;
             }
@@ -60,6 +62,7 @@ public class addStationServlet extends HttpServlet {
             url = "/list_stations.jsp";
             }
             else{
+            	stationEntity= new Entity("Station");
             	if(StationIO.exist(stationName)){
             	message="Station already exist in database. ";	
             	}
@@ -67,6 +70,15 @@ public class addStationServlet extends HttpServlet {
             		message=message+"ID already exist in database.";
             	}
             	request.setAttribute("message", message);
+            	
+                stationEntity.setProperty("stationName", stationName);
+                stationEntity.setProperty("stationZone", stationZone);
+                stationEntity.setProperty("regionCode", regionCode);
+                stationEntity.setProperty("stationID", stationID);                
+                stationEntity.setProperty("distance", distance);
+                stationEntity.setProperty("isSpecial", isSpecial);
+                
+                request.setAttribute("station", stationEntity);
             	url = "/add_station.jsp";
             }
             

@@ -119,8 +119,8 @@ public class StationIO {
 		PreparedQuery pq = datastore.prepare(query);
         Entity station = pq.asSingleEntity();
         try{
-        		if (station.getProperty("stationName") != null){
-        				result = true;
+        		if ((station.getProperty("stationName") != null) & (station.getProperty("stationName").toString().equalsIgnoreCase(stationName))){
+        			result = true;
         		}        
         	}
         catch(NullPointerException e){

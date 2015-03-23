@@ -45,8 +45,23 @@ message="";
             </select><br/>
             Mark as Special:<input type="checkbox" name="isSpecial" <%=station.getProperty("isSpecial").toString().equals("true") ? "checked='checked'" : "" %>><br/>
             
-            <input type="submit" value="Update Station">
-            
+            <input type="submit" value="Update">
+            <input type="button" value="Cancel" onClick="YNconfirm()">
         </form>
+         <script type="text/javascript">   
+function YNconfirm() { 
+     if (window.confirm('Do you really want to leave this page?')){
+         //alert("You agree") 
+         //REDIRECT
+         window.location.href = ('list_stations.jsp');
+     }
+     else{
+        //DO NOTHING AND STAY IN THE SAME PAGE
+        //OR SOMETHING ELSE THAT YOU WANT
+
+        return false;
+     }
+};
+</script>
     </body>
 </html>
