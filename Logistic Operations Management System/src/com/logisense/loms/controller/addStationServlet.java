@@ -58,7 +58,7 @@ public class addStationServlet extends HttpServlet {
                 
                 StationIO.add(station);
                 
-            request.setAttribute("stationList", StationIO.listStation());
+            request.setAttribute("stationList", StationIO.listStation(null));
             url = "/list_stations.jsp";
             }
             else{

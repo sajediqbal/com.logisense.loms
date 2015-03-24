@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-<%@ page import="com.google.appengine.api.datastore.Entity, com.logisense.loms.data.StationIO" %>
+<%@ page import="com.google.appengine.api.datastore.Entity, com.google.appengine.api.datastore.QueryResultList, com.logisense.loms.data.StationIO" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><%@ page import="java.util.List" %>
 
@@ -28,8 +28,23 @@
 			</tr>
 		</thead>
 		<%
+		String nextCursor = request.getParameter("nextCursor");
+		String prevCursor = request.getParameter("prevCursor");
+		String action = request.getParameter("action");
+		QueryResultList <Entity> stations=null;
 		
- 		    List<Entity> stations = StationIO.listStation();
+		if(action==null){
+			action="next";
+		}
+		if(action.equalsIgnoreCase("next")){
+			stations=StationIO.listStation(nextCursor);
+		}
+		else if(action.equalsIgnoreCase("prev")){
+			prevCursor= request.getParameter("nextCursor");
+			stations=StationIO.listStation(prevCursor);
+
+		}
+ 		     
 		    for(Entity e : stations){
  
 		%>
@@ -46,8 +61,42 @@
 			</tr>
 		<%
 			}
+		    if(prevCursor==null & nextCursor==null){
+		    	
+		    	nextCursor = stations.getCursor().toWebSafeString();
+		    	
+			    	response.getWriter().println(
+			    		      "<a href='/list_stations.jsp?nextCursor=" + nextCursor +"'>Next page</a>");
+			    
+		    }else
+		    
+		    if (prevCursor==null & nextCursor!=null){
+	   			prevCursor=nextCursor;
+	   			nextCursor=stations.getCursor().toWebSafeString();
+	   			
+		    	response.getWriter().println(
+		    		      "<a href='/list_stations.jsp'>Previous page</a> | <a href='/list_stations.jsp?action=next&nextCursor=" + nextCursor +"&prevCursor="+ prevCursor + "'>Next page</a>");	
+		   
+		    	}else
+		    	{
+		    		prevCursor=nextCursor;
+		    		nextCursor=stations.getCursor().toWebSafeString();
+		   			
+			    	response.getWriter().println(
+			    		      "<a href='/list_stations.jsp?action=prev&nextCursor="  + prevCursor + "'>Previous page</a> | <a href='/list_stations.jsp?action=next&nextCursor=" + nextCursor +"&prevCursor="+ prevCursor + "'>Next page</a>");	
+			    	response.getWriter().println(prevCursor);
+		    	}
+		  
+		    	
+		    	
+		    	
+		    
+
+		    
 		%>
+		 
 	</table>
- 
+
+
 </body>
 </html>

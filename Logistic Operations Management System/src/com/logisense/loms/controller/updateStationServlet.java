@@ -60,7 +60,7 @@ public class updateStationServlet extends HttpServlet {
                 
                 StationIO.update(originalID, station);
                 
-            request.setAttribute("stationList", StationIO.listStation());
+            request.setAttribute("stationList", StationIO.listStation(null));
             url = "/list_stations.jsp";
             }
             else{

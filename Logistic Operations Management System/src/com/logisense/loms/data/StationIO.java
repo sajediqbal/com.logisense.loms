@@ -3,6 +3,7 @@ package com.logisense.loms.data;
 import java.util.Date;
 import java.util.List;
 
+import com.google.appengine.api.datastore.Cursor;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
@@ -13,6 +14,7 @@ import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.PreparedQuery.TooManyResultsException;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.FilterOperator;
+import com.google.appengine.api.datastore.QueryResultList;
 import com.logisense.loms.business.Station; 
 
 /**
@@ -99,14 +101,27 @@ public class StationIO {
         return Integer.parseInt(station.getProperty("stationID").toString());
     }
     
-    public static List<Entity> listStation(){
-		
+    public static QueryResultList<Entity> listStation(String startCursor){
+    	
+    	
     	DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-		Query query = 
+    	int pageSize = 15;
+        FetchOptions fetchOptions = FetchOptions.Builder.withLimit(pageSize);
+        
+        
+        // If this servlet is passed a cursor parameter, let's use it
+        
+        if (startCursor != null) {
+          fetchOptions.startCursor(Cursor.fromWebSafeString(startCursor));
+        }
+        
+    	Query query = 
                       new Query("Station").addSort("stationName", Query.SortDirection.ASCENDING);
-	        List<Entity> stations = 
-                      datastore.prepare(query).asList(FetchOptions.Builder.withDefaults());
-	        return stations;
+    	PreparedQuery pq = datastore.prepare(query);
+        
+        QueryResultList<Entity> stations = pq.asQueryResultList(fetchOptions);
+
+    		        return stations;
     }
 
     public static boolean exist(String stationName)
