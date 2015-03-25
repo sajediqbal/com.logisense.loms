@@ -100,6 +100,25 @@ public class StationIO {
 
         return Integer.parseInt(station.getProperty("stationID").toString());
     }
+ public static List<Entity> getStationList(){
+    	
+    	
+    	DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+        FetchOptions fetchOptions = FetchOptions.Builder.withDefaults();
+        
+        
+        // If this servlet is passed a cursor parameter, let's use it
+        
+        
+        
+    	Query query = 
+                      new Query("Station").addSort("stationName", Query.SortDirection.ASCENDING);
+    	PreparedQuery pq = datastore.prepare(query);
+        
+        List<Entity> stations = pq.asQueryResultList(fetchOptions);
+
+    		        return stations;
+    }
     
     public static QueryResultList<Entity> listStation(String startCursor){
     	
