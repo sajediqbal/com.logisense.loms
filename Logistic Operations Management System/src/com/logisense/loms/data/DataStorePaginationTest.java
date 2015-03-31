@@ -4,11 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import junit.framework.TestCase;
-
-import org.junit.After;
-import org.junit.Before;
-
 import com.google.appengine.api.datastore.Cursor;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
@@ -16,15 +11,15 @@ import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.FetchOptions;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.Query.SortDirection;
 import com.google.appengine.api.datastore.QueryResultIterator;
-import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
-import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
+
 import com.google.common.base.Strings;
 
 
 
-public class DataStorePaginationTest extends TestCase {
+public class DataStorePaginationTest{
 
     private static final String KEY = "__key__";
     private static final String KIND = "Station";
@@ -40,15 +35,19 @@ public class DataStorePaginationTest extends TestCase {
      */
     public void test() throws Exception {
 
-        // Initialize some test entities.
-        //final List<Entity> entities = StationIO.getStationList();
+    	// Create a query to get the people, sorted by their initials.
+    	DatastoreService data = DatastoreServiceFactory.getDatastoreService();
+    	
+    	Query q = new Query(KIND); 
+        q.setKeysOnly(); 
+        FetchOptions fetchOptions = FetchOptions.Builder.withOffset(0); 
+        PreparedQuery preparedQuery = data.prepare(q); 
+        int pageCount = (int)Math.ceil((double)preparedQuery.asList(fetchOptions).size()/10); 
+
+        System.out.println(pageCount);
         
-
-        // Add the entities to the datastore.
-        //DatastoreServiceFactory.getDatastoreService().put(entities);
-
-        // Create a query to get the people, sorted by their initials.
-        Query q = new Query(KIND);
+        q = new Query(KIND);
+        PreparedQuery p = data.prepare(q);
         q.addSort(PROPERTY_NAME, SortDirection.ASCENDING);
 
         // This is to guarantee the order of duplicate initials.  This is not
@@ -57,7 +56,7 @@ public class DataStorePaginationTest extends TestCase {
 
         // Fetch with a page size of 30 people.
         final FetchOptions options = FetchOptions.Builder.withDefaults();
-        options.limit(30);
+        options.limit(3);
 
         // Get first page.
         final Page page1 = getPage(q, options);
@@ -71,8 +70,7 @@ public class DataStorePaginationTest extends TestCase {
         System.out.println("Page 2");
         System.out.println(page2);
 
-        // Make sure the next page starts after the previous page.
-        assertTrue(page1.last().compareTo(page2.first()) < 0);
+       
 
         // Get the next page by setting the cursor to the "next" cursor
         // from the current page.
@@ -81,8 +79,7 @@ public class DataStorePaginationTest extends TestCase {
         System.out.println("Page 3");
         System.out.println(page3);
 
-        // Make sure the next page starts after the previous page.
-        assertTrue(page1.last().compareTo(page2.first()) < 0);
+       
 
         // For paging backward, create the same query in the reverse order.
         // Of course, each page will create a new query according to the
@@ -103,13 +100,12 @@ public class DataStorePaginationTest extends TestCase {
         final Page reverse2a = page2a.reverse();
         System.out.println(reverse2a);
 
-        // Make sure this page 2 is exactly like the original.
-        assertEquals(page2, reverse2a);
-
+       
         // Get the previous page by setting the cursor to the "previous"
         // cursor from the current page.
-        options.startCursor(page2a.next);
+        options.startCursor(page2.previous);
         final Page page1a = getPage(q, options);
+        
         System.out.println("Page 1a");
 
         // As the page will be returned in the reverse order because the
@@ -118,8 +114,18 @@ public class DataStorePaginationTest extends TestCase {
         final Page reverse1a = page1a.reverse();
         System.out.println(reverse1a);
 
-        // Make sure this page 1 is exactly like the original.
-        assertEquals(page1, reverse1a);
+     // Get the previous page by setting the cursor to the "next"
+        // cursor from the current page.
+        options.startCursor(page1.next);
+        final Page page1b = getPage(q, options);
+        
+        System.out.println("Page 1b");
+
+        // As the page will be returned in the reverse order because the
+        // query is reversed, reverse the page for comparison with the
+        // original.
+       
+        System.out.println(page1b);
     }
 
     /**
@@ -289,21 +295,5 @@ public class DataStorePaginationTest extends TestCase {
         }
     }
 
-    /**
-     * Configure the test with the datastore helper.
-     */
-    private final LocalServiceTestHelper helper =
-            new LocalServiceTestHelper(new LocalDatastoreServiceTestConfig());
-
-    @Override
-    @Before
-    public void setUp() throws Exception {
-        helper.setUp();
-    }
-
-    @Override
-    @After
-    public void tearDown() {
-        helper.tearDown();
-    }
+   
 }

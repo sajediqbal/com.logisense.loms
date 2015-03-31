@@ -125,13 +125,13 @@ public class StationIO {
     	
     	DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     	int pageSize = 15;
-        FetchOptions fetchOptions = FetchOptions.Builder.withLimit(pageSize);
-        
+       // FetchOptions fetchOptions = FetchOptions.Builder.withLimit(pageSize);
+    	FetchOptions fetchOptions = FetchOptions.Builder.withDefaults();
         
         // If this servlet is passed a cursor parameter, let's use it
         
         if (startCursor != null) {
-          fetchOptions.startCursor(Cursor.fromWebSafeString(startCursor));
+          //fetchOptions.startCursor(Cursor.fromWebSafeString(startCursor));
         }
         
     	Query query = 

@@ -3,8 +3,6 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="com.google.appengine.eclipse.core.GAE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
-	<classpathentry kind="lib" path="C:/Users/compu_000/git/com.logisense.loms/Logistic Operations Management System/war/WEB-INF/lib/appengine-testing-1.4.0.jar"/>
-	<classpathentry kind="lib" path="C:/Users/compu_000/git/com.logisense.loms/Logistic Operations Management System/war/WEB-INF/lib/guava-12.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Sajid/git/com.logisense.loms/Logistic Operations Management System/war/WEB-INF/lib/guava-12.0.jar"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>

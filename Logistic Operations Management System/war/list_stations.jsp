@@ -28,26 +28,13 @@
 			</tr>
 		</thead>
 		<%
-		DataStorePaginationTest testObject = new DataStorePaginationTest();
-		testObject.test();
-		
-		String nextCursor = request.getParameter("nextCursor");
-		String prevCursor = request.getParameter("prevCursor");
-		String action = request.getParameter("action");
+
 		QueryResultList <Entity> stations=null;
 		
-		if(action==null){
-			action="next";
-		}
-		if(action.equalsIgnoreCase("next")){
+		String nextCursor = request.getParameter("cursor");
+		
 			stations=StationIO.listStation(nextCursor);
-		}
-		else if(action.equalsIgnoreCase("prev")){
-			prevCursor= request.getParameter("nextCursor");
-			stations=StationIO.listStation(prevCursor);
-
-		}
- 		     
+	
 		    for(Entity e : stations){
  
 		%>
@@ -64,38 +51,12 @@
 			</tr>
 		<%
 			}
-		    if(prevCursor==null & nextCursor==null){
-		    	
+		  
 		    	nextCursor = stations.getCursor().toWebSafeString();
 		    	
 			    	response.getWriter().println(
-			    		      "<a href='/list_stations.jsp?nextCursor=" + nextCursor +"'>Next page</a>");
-			    
-		    }else
-		    
-		    if (prevCursor==null & nextCursor!=null){
-	   			prevCursor=nextCursor;
-	   			nextCursor=stations.getCursor().toWebSafeString();
-	   			
-		    	response.getWriter().println(
-		    		      "<a href='/list_stations.jsp'>Previous page</a> | <a href='/list_stations.jsp?action=next&nextCursor=" + nextCursor +"&prevCursor="+ prevCursor + "'>Next page</a>");	
-		   
-		    	}else
-		    	{
-		    		prevCursor=nextCursor;
-		    		nextCursor=stations.getCursor().toWebSafeString();
-		   			
-			    	response.getWriter().println(
-			    		      "<a href='/list_stations.jsp?action=prev&nextCursor="  + prevCursor + "'>Previous page</a> | <a href='/list_stations.jsp?action=next&nextCursor=" + nextCursor +"&prevCursor="+ prevCursor + "'>Next page</a>");	
-			    	response.getWriter().println(prevCursor);
-		    	}
-		  
-		    	
-		    	
-		    	
-		    
+			    		      "<a href='/list_stations.jsp?cursor=" + nextCursor +"'>Next page</a>");
 
-		    
 		%>
 		 
 	</table>
