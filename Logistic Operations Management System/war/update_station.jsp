@@ -16,7 +16,7 @@
     <body>
         	<h1>Stations Management</h1>
  
-	Function : <a href="list_stations.jsp">List Station</a>
+	Function : <a href="liststations">List Station</a>
 	<hr />
  
 	<h2>Update Stations</h2>
@@ -30,6 +30,8 @@ message="";
         <form action="updatestation" method="post">
         <input type="hidden" name="originalID" id="originalID" 
 			value="<%=station.getProperty("stationID") %>" /> 
+			<input type="hidden" name="page" id="page" 
+			value="<%=(String)request.getAttribute("page")%>" />
         Station ID:<input type="number" name="stationID" 
         	value="<%=station.getProperty("stationID") %>" readonly/><br/>
             Station Name:<input type="text" name="stationName" value="<%=station.getProperty("stationName") %>" required/><br/>
@@ -53,7 +55,7 @@ function YNconfirm() {
      if (window.confirm('Do you really want to leave this page?')){
          //alert("You agree") 
          //REDIRECT
-         window.location.href = ('list_stations.jsp');
+         window.location.href = ('liststations?page='+<%=(String)request.getAttribute("page")%>);
      }
      else{
         //DO NOTHING AND STAY IN THE SAME PAGE

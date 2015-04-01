@@ -5,13 +5,7 @@ import java.io.*;
 import javax.servlet.*;
 import javax.servlet.http.*;
 
-import com.logisense.loms.business.*;
 import com.logisense.loms.data.*;
-import com.sun.xml.internal.bind.v2.schemagen.xmlschema.List;
-
-import java.util.Date;
-
-
 
 /**
  *
@@ -39,10 +33,11 @@ public class deleteStationServlet extends HttpServlet {
         
         // get parameters from the request
             int stationID = Integer.parseInt(request.getParameter("stationID"));
+            
                           
                 StationIO.delete(stationID);
 
-            String url = "/list_stations.jsp";
+            String url = "/liststations?page="+request.getParameter("page");
  
         RequestDispatcher dispatcher = 
         		getServletContext().getRequestDispatcher(url);

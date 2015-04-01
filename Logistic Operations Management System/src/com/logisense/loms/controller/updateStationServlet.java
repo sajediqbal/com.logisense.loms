@@ -59,9 +59,8 @@ public class updateStationServlet extends HttpServlet {
             	Station station=new Station (stationID, stationName, stationZone, regionCode, distance, isSpecial);
                 
                 StationIO.update(originalID, station);
-                
-            request.setAttribute("stationList", StationIO.listStation(null));
-            url = "/list_stations.jsp";
+
+            url = "/liststations?page="+request.getParameter("page");
             }
             else{
             	request.setAttribute("message", stationName+" Station already exist.");
@@ -89,6 +88,7 @@ public class updateStationServlet extends HttpServlet {
             throws ServletException, IOException {
     	 int stationID = Integer.parseInt(request.getParameter("stationID"));
     	 request.setAttribute("station", StationIO.getStationByID(stationID));
+    	 request.setAttribute("page", request.getParameter("page"));
     	 
      	String url = "/update_station.jsp";
      	RequestDispatcher dispatcher = 

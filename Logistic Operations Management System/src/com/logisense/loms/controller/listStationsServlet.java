@@ -28,21 +28,28 @@ public class listStationsServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        // get parameters from the request
-    	 int page = 1;
-         int recordsPerPage = 100;
-         if(request.getParameter("page") != null)
-             page = Integer.parseInt(request.getParameter("page"));
 
-         QueryResultList<Entity> list = StationIO.viewAllStations((page-1)*recordsPerPage,
+    	 int page = 1;
+         int recordsPerPage = 250;
+         int noOfRecords = StationIO.getCount();
+         int noOfPages = (int) Math.ceil(noOfRecords * 1.0 / recordsPerPage);
+         
+         if(request.getParameter("page") != null){
+             page = Integer.parseInt(request.getParameter("page"));
+             if (page>noOfPages)
+            	 page=noOfPages;
+         }
+         
+         
+
+         QueryResultList<Entity> list = StationIO.getStationsResultList((page-1)*recordsPerPage,
                                   recordsPerPage);
          
-         int noOfRecords = StationIO.getNoOfRecords();
-         int noOfPages = (int) Math.ceil(noOfRecords * 1.0 / recordsPerPage);
+        
          request.setAttribute("stationList", list);
          request.setAttribute("noOfPages", noOfPages);
          request.setAttribute("currentPage", page);
-         RequestDispatcher view = request.getRequestDispatcher("list_stations.jsp");
+         RequestDispatcher view = request.getRequestDispatcher("liststations.jsp");
          view.forward(request, response);
             }
   

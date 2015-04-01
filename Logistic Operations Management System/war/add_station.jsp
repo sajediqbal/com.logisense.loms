@@ -13,7 +13,7 @@
     <body>
     	<h1>Stations Management</h1>
  
-	Function : <a href="list_stations.jsp">List Station</a>
+	Function : <a href="liststations">List Station</a>
 	<hr />
  
 	<h2>Add New Stations</h2>
@@ -67,7 +67,7 @@ function YNconfirm() {
      if (window.confirm('Do you really want to leave this page?')){
          //alert("You agree") 
          //REDIRECT
-         window.location.href = ('list_stations.jsp');
+         window.location.href = ('liststations');
      }
      else{
         //DO NOTHING AND STAY IN THE SAME PAGE

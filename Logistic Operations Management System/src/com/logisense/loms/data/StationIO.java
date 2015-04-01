@@ -1,10 +1,6 @@
 package com.logisense.loms.data;
 
-import java.util.Date;
 import java.util.List;
-import java.util.ArrayList;
-
-import com.google.appengine.api.datastore.Cursor;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
@@ -15,7 +11,7 @@ import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.PreparedQuery.TooManyResultsException;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.FilterOperator;
-import com.google.appengine.api.datastore.QueryResultIterator;
+
 import com.google.appengine.api.datastore.QueryResultList;
 import com.logisense.loms.business.Station; 
 
@@ -92,29 +88,23 @@ public class StationIO {
         return station;
     }
     
-    public static QueryResultList<Entity> viewAllStations(
+    public static QueryResultList<Entity> getStationsResultList(
             int offset, 
             int noOfRecords)
 {
- //   	datastoreService.prepare(query).asList(withLimit(10).offset(5));
-
     	DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    	
     	int pageSize = noOfRecords;
     	
-       // FetchOptions fetchOptions = FetchOptions.Builder.withLimit(pageSize);
     	FetchOptions fetchOptions = FetchOptions.Builder.withLimit(pageSize).offset(offset);
         
-        // If this servlet is passed a cursor parameter, let's use it
-     
-    	Query query = 
-                      new Query("Station").addSort("stationName", Query.SortDirection.ASCENDING);
+    	Query query = new Query("Station").addSort("stationName", Query.SortDirection.ASCENDING);
     	PreparedQuery pq = datastore.prepare(query);
-    	
-        
-    	QueryResultList<Entity> iterator =
+ 
+    	QueryResultList<Entity> stationResultList =
                 pq.asQueryResultList(fetchOptions);
        
-    return iterator;
+    return stationResultList;
 }
 
 
@@ -129,6 +119,7 @@ public class StationIO {
 
         return Integer.parseInt(station.getProperty("stationID").toString());
     }
+    
  public static List<Entity> getStationList(){
     	
     	
@@ -213,7 +204,7 @@ public class StationIO {
     	        return result;
     	    }
     
-    public static int getNoOfRecords(){
+    public static int getCount(){
     	// Create a query to get the people, sorted by their initials.
     	DatastoreService data = DatastoreServiceFactory.getDatastoreService();
     	

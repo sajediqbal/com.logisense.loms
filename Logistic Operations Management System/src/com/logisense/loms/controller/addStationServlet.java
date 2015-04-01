@@ -8,11 +8,6 @@ import javax.servlet.http.*;
 import com.google.appengine.api.datastore.Entity;
 import com.logisense.loms.business.*;
 import com.logisense.loms.data.*;
-import com.sun.xml.internal.bind.v2.schemagen.xmlschema.List;
-
-import java.util.Date;
-
-
 
 /**
  *
@@ -58,8 +53,8 @@ public class addStationServlet extends HttpServlet {
                 
                 StationIO.add(station);
                 
-            request.setAttribute("stationList", StationIO.listStation(null));
-            url = "/list_stations.jsp";
+            
+            url = "/liststations";
             }
             else{
             	stationEntity= new Entity("Station");

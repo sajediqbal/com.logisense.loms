@@ -12,7 +12,7 @@
 <body>
 	<h1>Stations Management</h1>
  
-	Function : <a href="add_station.jsp">Add Station</a> |  <a href="list_stations.jsp">Refresh</a>
+	Function : <a href="add_station.jsp">Add Station</a> |  <a href="liststations">Refresh</a>
 	<hr />
  
 	<h2>All Stations</h2>
@@ -42,8 +42,8 @@
 			  <td><%=e.getProperty("stationZone") %></td>
 			  <td><%=e.getProperty("regionCode") %></td>			  
 			  <td><%=e.getProperty("isSpecial").toString().equals("true") ? "Special" : "-" %></td>
-			  <td><a href="updatestation?stationID=<%=e.getProperty("stationID")%>">Update</a> 
-                             | <a href="deletestation?stationID=<%=e.getProperty("stationID")%>" onClick="return confirm(
+			  <td><a href="updatestation?stationID=<%=e.getProperty("stationID")%>&page=${currentPage}">Update</a> 
+                             | <a href="deletestation?stationID=<%=e.getProperty("stationID")%>&page=${currentPage}" onClick="return confirm(
   'Are you sure you want to delete this Station?');">Delete</a></td>
 			</tr>
 		<%
