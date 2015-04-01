@@ -2,6 +2,7 @@ package com.logisense.loms.data;
 
 import java.util.Date;
 import java.util.List;
+import java.util.ArrayList;
 
 import com.google.appengine.api.datastore.Cursor;
 import com.google.appengine.api.datastore.DatastoreService;
@@ -14,6 +15,7 @@ import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.PreparedQuery.TooManyResultsException;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.FilterOperator;
+import com.google.appengine.api.datastore.QueryResultIterator;
 import com.google.appengine.api.datastore.QueryResultList;
 import com.logisense.loms.business.Station; 
 
@@ -89,6 +91,33 @@ public class StationIO {
 
         return station;
     }
+    
+    public static QueryResultList<Entity> viewAllStations(
+            int offset, 
+            int noOfRecords)
+{
+ //   	datastoreService.prepare(query).asList(withLimit(10).offset(5));
+
+    	DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    	int pageSize = noOfRecords;
+    	
+       // FetchOptions fetchOptions = FetchOptions.Builder.withLimit(pageSize);
+    	FetchOptions fetchOptions = FetchOptions.Builder.withLimit(pageSize).offset(offset);
+        
+        // If this servlet is passed a cursor parameter, let's use it
+     
+    	Query query = 
+                      new Query("Station").addSort("stationName", Query.SortDirection.ASCENDING);
+    	PreparedQuery pq = datastore.prepare(query);
+    	
+        
+    	QueryResultList<Entity> iterator =
+                pq.asQueryResultList(fetchOptions);
+       
+    return iterator;
+}
+
+
     
     public static int getStationIDByName(String stationName){
     	DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
@@ -183,6 +212,19 @@ public class StationIO {
     	        }
     	        return result;
     	    }
+    
+    public static int getNoOfRecords(){
+    	// Create a query to get the people, sorted by their initials.
+    	DatastoreService data = DatastoreServiceFactory.getDatastoreService();
+    	
+    	Query q = new Query("Station"); 
+        q.setKeysOnly(); 
+        FetchOptions fetchOptions = FetchOptions.Builder.withOffset(0); 
+        PreparedQuery preparedQuery = data.prepare(q); 
+        int pageCount = (int)preparedQuery.asList(fetchOptions).size(); 
+
+    	return pageCount;
+    }
 
 }
 
