@@ -65,6 +65,7 @@ public class updateStationServlet extends HttpServlet {
             else{
             	request.setAttribute("message", stationName+" Station already exist.");
             	request.setAttribute("station", StationIO.getStationByID(stationID));
+            	request.setAttribute("page", request.getParameter("page"));
             	
             	url = "/update_station.jsp";
             }
